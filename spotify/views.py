@@ -1,8 +1,16 @@
 from django.shortcuts import render
+from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
+class SpotifyLoginView(LoginView):
+    template_name = "spotify/login.html"
+    success_url = reverse_lazy("home")
 
 
-# Create your views here.
-# Hello view that passes text from the function
-# to the template
-def hello(request):
-    return render(request, "spotify/hello_world.html", {"text": "Hello, world!!!"})
+# Home view
+class HomeView(LoginRequiredMixin, TemplateView):
+    template_name = "spotify/home.html"
+    login_url = "/login"
+    
